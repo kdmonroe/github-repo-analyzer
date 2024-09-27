@@ -25,6 +25,13 @@ def load_token_from_env():
         return os.getenv('GITHUB_TOKEN')
     return None
 
+def get_token_from_user():
+    st.warning("GitHub token not found in the environment.")
+    token = st.text_input("Please enter your GitHub Personal Access Token:", type="password")
+    if token:
+        return token
+    return None
+
 def create_summary(repo_manager, stats):
     username = repo_manager.user.login
     return f"""
@@ -139,7 +146,11 @@ def create_repository(repo_manager):
 def initialize_repo_manager():
     token = load_token_from_env()
     if not token:
-        return None, "GitHub token not found. Please set up your token."
+        token = get_token_from_user()
+    
+    if not token:
+        return None, "GitHub token not provided. Please set up your token."
+    
     try:
         repo_manager = GithubRepoManager(token)
         return repo_manager, None
@@ -156,48 +167,21 @@ def main():
     """, unsafe_allow_html=True)
 
     repo_manager, error = initialize_repo_manager()
+    token_loaded = repo_manager is not None
+
+    # Help information placement and expansion
+    if not token_loaded:
+        display_help_info(expanded=True)
+
     if error:
         st.error(error)
-        st.info("See the 'Need help?' section above for instructions on how to create and set up your GitHub token.")
         return
 
     user = repo_manager.user
     
-    # Help tooltip
-    with st.expander("❓ Need help?"):
-        st.write("""
-        This app allows you to manage and visualize your GitHub repositories efficiently using [PytGithub](https://pygithub.readthedocs.io/en/latest/) and [Streamlit](https://streamlit.io/). It's designed to help you manage your GitHub repositories, track your activity, and visualize your data in a user-friendly way. Here's what each section does:
-        - **Stats 📊**: Overview of your GitHub repositories.
-        - **Activity 🕒**: Recent commits and repository updates.
-        - **Data 📁**: Detailed information about your repositories.
-        - **Visualize 📈**: Graphs and charts of your GitHub data.
-        - **Stars ⭐**: Information about your starred repositories.
-        - **Create 🆕**: Create new repositories using the GitHub API.
-        - **Delete 🗑️**: Option to delete repositories (use with caution).
-        
-        To use this app, you need to set up a GitHub Personal Access Token. Here's how:
-        1. Go to your GitHub account settings.
-        2. Click on "Developer settings" in the left sidebar.
-        3. Select "Personal access tokens" and then "Tokens (classic)".
-        4. Click "Generate new token" and select "Generate new token (classic)".
-        5. Give your token a descriptive name.
-        6. Select the following scopes:
-           - `repo` (Full control of private repositories)
-           - `delete_repo` (Delete repositories)
-           - `read:user` (Read all user profile data)
-           - `user:email` (Access user email addresses (read-only))
-        7. Click "Generate token" at the bottom of the page.
-        8. Copy the generated token and store it securely.
-        9. If using this app through the web, provide the token in the input field above. If using the CLI, the token should be in the `.env` file in the root directory. Your file should look like this:
-        ```env
-        GITHUB_TOKEN=your_github_token
-        ```
-        
-        Remember to keep your token secret and never share it publicly!
-        """)
-
     # Sidebar with user info
     with st.sidebar:
+        st.title("GitHub Repository Analyzer")
         st.image(user.avatar_url, width=100)
         st.write(f"Welcome, **{user.name}**!")
         
@@ -240,11 +224,15 @@ def main():
         st.header("Recent Activity 🕒")
         st.subheader("Recently Active Repositories")
         
-        # New component to accept user input
         num_recent_repos = st.number_input("Number of recent repositories to fetch", min_value=1, max_value=50, value=10, step=1)
         
         recent_repos = repo_manager.get_recent_repos(num_recent_repos)
         show_all_commits = st.checkbox("Show all recent commits", value=True)
+        
+        # Filter for owned vs non-owned repos
+        filter_owned = st.checkbox("Show only owned repositories", value=False)
+        if filter_owned:
+            recent_repos = [repo for repo in recent_repos if repo.owner.login == user.login]
 
         all_commits = []
         
@@ -415,6 +403,9 @@ def main():
     elif selected == "Delete 🗑️":
         delete_repository(repo_manager)
 
+    if token_loaded:
+        display_help_info(expanded=False)
+
     st.sidebar.markdown("""
     ---
     ### About this app
@@ -422,6 +413,29 @@ def main():
     This GitHub Repository Analyzer helps you manage and visualize your GitHub repositories efficiently using [PyGithub](https://pygithub.readthedocs.io/en/latest/) and [Streamlit](https://streamlit.io/). See more at [GitHub Repository Analyzer](https://github.com/keonmonroe/github-repo-analyzer) including CLI usage and potential use cases.
                         
     """)
+
+def display_help_info(expanded):
+    with st.expander("❓ Need help?", expanded=expanded):
+        st.write("""
+        This app allows you to manage and visualize your GitHub repositories efficiently using [PytGithub](https://pygithub.readthedocs.io/en/latest/) and [Streamlit](https://streamlit.io/). 
+
+        To use this app, you need to set up a GitHub Personal Access Token. Here's how:
+        1. Go to your GitHub account settings.
+        2. Click on "Developer settings" in the left sidebar.
+        3. Select "Personal access tokens" and then "Tokens (classic)".
+        4. Click "Generate new token" and select "Generate new token (classic)".
+        5. Give your token a descriptive name.
+        6. Select the following scopes:
+           - `repo` (Full control of private repositories)
+           - `delete_repo` (Delete repositories)
+           - `read:user` (Read all user profile data)
+           - `user:email` (Access user email addresses (read-only))
+        7. Click "Generate token" at the bottom of the page.
+        8. Copy the generated token and store it securely.
+        9. Provide the token in the input field below.
+
+        Remember to keep your token secret and never share it publicly!
+        """)
 
 if __name__ == "__main__":
     st.set_page_config(layout="wide", page_title="GitHub Repository Analyzer")
