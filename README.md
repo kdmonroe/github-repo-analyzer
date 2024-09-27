@@ -59,11 +59,7 @@ The Streamlit web application provides a user-friendly, interactive interface fo
 
 #### Running the Streamlit App
 
-1. Run the Streamlit app:
-    ```bash
-    streamlit run app.py
-    ```
-
+1. CD into the source directory and run the Streamlit app: `streamlit run app.py`
 2. Open your web browser and go to `http://localhost:8501` to view the app.
 
 ### 2. Command-Line Interface (CLI)
@@ -101,10 +97,7 @@ python cli.py visualize --type stars_vs_forks --output stars_vs_forks.png
 python cli.py visualize --type creation_timeline --output timeline.png
 ```
 
-For more information on CLI usage, run:
-```bash
-python cli.py --help
-```
+For more information on CLI usage, run: `python cli.py --help`
 
 ## Data Export
 
@@ -114,7 +107,7 @@ Both the Streamlit app and CLI support exporting data to CSV and Excel formats. 
 
 ## Visualization
 
-The tool generates various Plotly diagrams to visualize your GitHub data:
+The tool generates various [Plotly](https://plotly.com/python/) diagrams to visualize your GitHub data:
 - Language distribution
 - Stars vs. Forks
 - Repository creation timeline
@@ -129,18 +122,8 @@ In the Streamlit app, these visualizations are displayed interactively. Using th
 - **Educators**: Use the app as a teaching tool to demonstrate GitHub API interactions and data visualization techniques.
 
 ## Contributions
-
 Contributions are welcome! If you have any ideas for new features or improvements, feel free to open an issue or submit a pull request.
 
-### How to Contribute
-
-Contributions are welcome! You can follow the instructions below to do so.
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes and commit them (`git commit -m 'Add new feature'`).
-4. Push to the branch (`git push origin feature-branch`).
-5. Open a pull request.
 
 ## Development Setup
 
@@ -200,51 +183,8 @@ You can also use the GitHub Repository Analyzer from the command line:
     python cli.py visualize --type creation_timeline --output timeline.png  # Generate and save repository creation timeline diagram
     ```
 
-For more information on CLI usage, run:
-```bash
-python cli.py --help
-```
+For more information on CLI usage, run: `python cli.py --help`
 
-## Setting up the environment
-
-### Using Conda
-
-1. Make sure you have [Anaconda](https://www.anaconda.com/products/distribution) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) installed on your system.
-
-2. Clone this repository:
-   ```
-   git clone https://github.com/yourusername/github-repo-analyzer.git
-   cd github-repo-analyzer
-   ```
-
-3. Create a new conda environment using the `environment.yml` file:
-   ```
-   conda env create -f environment.yml
-   ```
-
-4. Activate the new environment:
-   ```
-   conda activate gh-streamlit
-   ```
-
-5. You're now ready to run the application!
-
-### Using pip
-
-If you prefer to use pip instead of conda, you can install the required packages using the `requirements.txt` file:
-
-1. Create a new virtual environment (optional but recommended):
-   ```
-   python -m venv venv
-   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-   ```
-
-2. Install the required packages:
-   ```
-   pip install -r requirements.txt
-   ```
-
-3. You're now ready to run the application!
 
 ## License
 
