@@ -118,7 +118,7 @@ def create_repository(repo_manager):
     # Form for repository details
     with st.form("create_repo_form"):
         repo_name = st.text_input("Repository Name", help="Enter the name for your new repository")
-        description = st.text_area("Description", value="This repo was created by Github Streamlit!", help="Provide a brief description of your repository")
+        description = st.text_area("Description", help="Provide a brief description of your repository")
         private = st.checkbox("Private Repository", help="Check this if you want the repository to be private")
         auto_init = st.checkbox("Initialize with README", help="Check this to initialize the repository with a README file")
         
