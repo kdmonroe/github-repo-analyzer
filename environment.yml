@@ -1,0 +1,14 @@
+name: gh-streamlit
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - streamlit
+  - pandas
+  - pygithub
+  - plotly
+  - python-dotenv
+  - pip
+  - pip:
+    - streamlit-option-menu

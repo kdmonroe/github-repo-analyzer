@@ -1,0 +1,6 @@
+streamlit
+pandas
+PyGithub
+plotly
+python-dotenv
+streamlit-option-menu
