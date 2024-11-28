@@ -1,34 +1,28 @@
 # GitHub Repo Analyzer
-
 GitHub Repo Analyzer is a tool that helps you manage and visualize your GitHub repositories efficiently. It offers two main interfaces:
 
-1. A Streamlit-based web application
-2. A command-line interface (CLI) using argparse
+1. A Streamlit-based web (or local) application
+2. A command-line interface (CLI) 
 
 Both interfaces leverage the PyGithub library to interact with the GitHub API and provide various functionalities such as viewing repository statistics, recent activity, data visualization, and more.
 
+![GitHub Repo Analyzer](/images/stats.png)
+![GitHub Repo Analyzer](/images/recent-activity.png)
+![GitHub Repo Analyzer](/images/visualizations.png)
+
+
 ### Prerequisites
-- Python 3.7 or higher
+- Python 3.7 or higher 
 - GitHub Personal Access Token
 
 ### GitHub Token Permissions
 
-To use this application, you'll need a GitHub Personal Access Token with the following scopes:
+To use this application, you'll need a GitHub Personal Access Token with the following scopes (which can be added to the token when creating it):
 
 1. **repo**: Full control of private repositories
-   - Needed for accessing repository data, creating/deleting repositories, and managing repository settings.
-
 2. **read:user**: Read access to user profile data
-   - Required to fetch information about the authenticated user.
-
 3. **user:email**: Access user email addresses (read-only)
-   - Necessary for operations that require the user's email, such as commit author information.
-
 4. **delete_repo**: Delete repositories
-   - Essential for the repository deletion feature. Only include this if you want to use the delete functionality.
-
-5. **workflow**: Update GitHub Action workflows
-   - Required if you plan to manage or view GitHub Actions within the app.
 
 To create a token with these permissions:
 
@@ -38,8 +32,9 @@ To create a token with these permissions:
 4. Generate and securely store your token
 
 As a best practice, emember to keep your token confidential and never share it publicly. 
-The app will prompt you to enter this token when you run it and not store it out
+The app will prompt you to enter this token when you run it and not store it out. 
 
+Similarly the CLI will prompt you to enter this token when you run it and not store it out. 
 
 ## Features
 
@@ -55,7 +50,7 @@ The app will prompt you to enter this token when you run it and not store it out
 
 ### 1. Streamlit Web Application
 
-The Streamlit web application provides a user-friendly, interactive interface for managing and visualizing your GitHub repositories.
+The [Streamlit web application](https://gh-analyzer.streamlit.app) provides a user-friendly, interactive interface for managing and visualizing your GitHub repositories. Just provide your GitHub token and the app will handle the rest.
 
 #### Running the Streamlit App
 
@@ -123,7 +118,6 @@ In the Streamlit app, these visualizations are displayed interactively. Using th
 
 ## Contributions
 Contributions are welcome! If you have any ideas for new features or improvements, feel free to open an issue or submit a pull request.
-
 
 ## Development Setup
 
